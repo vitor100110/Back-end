@@ -1,26 +1,54 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateProfessorDto } from './dto/create-professor.dto';
 import { UpdateProfessorDto } from './dto/update-professor.dto';
+import { PrismaService } from 'src/prisma.service';
 
 @Injectable()
 export class ProfessorService {
-  create(createProfessorDto: CreateProfessorDto) {
-    return 'This action adds a new professor';
+    constructor (private prismaService: PrismaService){}
+  async create(createProfessorDto: CreateProfessorDto) {
+    return await this.prismaService.professor.create( {
+      data: createProfessorDto,
+    });
+  }
+  async findAll() {
+    return await this.prismaService.professor.findMany();
   }
 
-  findAll() {
-    return `This action returns all professor`;
+  async findOne(id: number) {
+    const ValidarId = await this.prismaService.professor.findUnique( {
+      where: { id },
+    });
+    if(ValidarId){
+      throw new NotFoundException("Usuario Invalido")
+    }
+    return await this.prismaService.professor.findUnique( {
+      where: { id },
+    });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} professor`;
+  async update(id: number, updateProfessorDto: UpdateProfessorDto) {
+    const ValidarId = await this.prismaService.professor.findUnique( {
+      where: { id },
+    });
+    if(ValidarId){
+      throw new NotFoundException("Usuario Invalido")
+    }
+    return await this.prismaService.professor.update( {
+      where: { id },
+      data: updateProfessorDto,
+    });
   }
 
-  update(id: number, updateProfessorDto: UpdateProfessorDto) {
-    return `This action updates a #${id} professor`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} professor`;
+  async remove(id: number) {
+    const ValidarId = await this.prismaService.professor.findUnique( {
+      where: { id },
+    });
+    if(ValidarId){
+      throw new NotFoundException("Usuario Invalido")
+    }
+    return await this.prismaService.professor.delete( {
+      where: { id }
+    });
   }
 }
