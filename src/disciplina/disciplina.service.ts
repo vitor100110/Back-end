@@ -18,7 +18,7 @@ export class DisciplinaService {
 
   async findOne(id: number) {
     const ValidarID = await this.prismaService.disciplina.findUnique({
-      where: { id };
+      where: { id }
     })
     if(ValidarID){
       throw new NotFoundException("Usuario Invalido");
@@ -30,7 +30,7 @@ export class DisciplinaService {
 
   async update(id: number, updateDisciplinaDto: UpdateDisciplinaDto) {
     const ValidarID = await this.prismaService.disciplina.findUnique({
-      where: { id };
+      where: { id }
     })
     if(ValidarID){
       throw new NotFoundException("Usuario Invalido");
@@ -43,7 +43,7 @@ export class DisciplinaService {
 
   async remove(id: number) {
     const ValidarID = await this.prismaService.disciplina.findUnique({
-      where: { id };
+      where: { id }
     })
     if(ValidarID){
       throw new NotFoundException("Usuario Invalido");

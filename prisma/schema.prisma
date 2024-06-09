@@ -18,7 +18,7 @@ model User {
   createdAt   DateTime  @default(now())
   updatedAt   DateTime? @updatedAt
   avaliacoes  Post[]
-  comentarios Comment[]
+  comentarios Comentarios[]
 }
 
 
@@ -33,10 +33,10 @@ model Post {
   conteudo     String
   createdAt    DateTime   @default(now())
   updatedAt    DateTime?  @updatedAt
-  comentarios  Comment[]
+  comentarios  Comentarios[]
 }
 
-model Comment {
+model Comentarios {
   id         Int        @id @default(autoincrement())
   usuario    User    @relation(fields: [usuarioID], references: [id], onDelete: Cascade)
   usuarioID  String

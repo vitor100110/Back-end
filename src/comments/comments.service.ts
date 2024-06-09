@@ -5,7 +5,9 @@ import { PrismaService } from 'src/prisma.service';
 
 @Injectable()
 export class CommentsService {
-  constructor (private prismaService: PrismaService) { }
+  constructor(private prismaService: PrismaService) {
+
+  }
   async create(createCommentDto: CreateCommentDto) {
     return await this.prismaService.comment.create({
       data: createCommentDto,
