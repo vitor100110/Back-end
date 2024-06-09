@@ -1,26 +1,55 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateDisciplinaDto } from './dto/create-disciplina.dto';
 import { UpdateDisciplinaDto } from './dto/update-disciplina.dto';
+import { PrismaService } from 'src/prisma.service';
 
 @Injectable()
 export class DisciplinaService {
-  create(createDisciplinaDto: CreateDisciplinaDto) {
-    return 'This action adds a new disciplina';
+  constructor (private prismaService: PrismaService){}
+  async create(createDisciplinaDto: CreateDisciplinaDto) {
+    return await this.prismaService.disciplina.create( {
+      data: createDisciplinaDto,
+    });
   }
 
-  findAll() {
-    return `This action returns all disciplina`;
+  async findAll() {
+    return await this.prismaService.disciplina.findMany();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} disciplina`;
+  async findOne(id: number) {
+    const ValidarID = await this.prismaService.disciplina.findUnique({
+      where: { id };
+    })
+    if(ValidarID){
+      throw new NotFoundException("Usuario Invalido");
+    }
+    return  await this.prismaService.disciplina.findUnique({
+      where: { id }
+    }) ;
   }
 
-  update(id: number, updateDisciplinaDto: UpdateDisciplinaDto) {
-    return `This action updates a #${id} disciplina`;
+  async update(id: number, updateDisciplinaDto: UpdateDisciplinaDto) {
+    const ValidarID = await this.prismaService.disciplina.findUnique({
+      where: { id };
+    })
+    if(ValidarID){
+      throw new NotFoundException("Usuario Invalido");
+    }
+    return await this.prismaService.disciplina.update({
+      where: { id },
+      data: updateDisciplinaDto
+    });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} disciplina`;
+  async remove(id: number) {
+    const ValidarID = await this.prismaService.disciplina.findUnique({
+      where: { id };
+    })
+    if(ValidarID){
+      throw new NotFoundException("Usuario Invalido");
+    }
+    return await this.prismaService.disciplina.delete({
+      where: { id }
+    });
   }
 }
