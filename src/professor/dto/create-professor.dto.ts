@@ -9,10 +9,6 @@ export class CreateProfessorDto {
     @IsEmpty( {message: " O do professor nao pode ser vazio"})
     departamento: string;
 
-    @IsOptional()
-    @IsInt( {message:"O ID da disciplina precisa ser um Numero"})
-    @IsEmpty( {message: "O ID da disciplina nao pode ser vazio"})
-    disciplinaID: number;
 
 }
 

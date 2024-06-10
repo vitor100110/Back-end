@@ -48,21 +48,21 @@ model Comentarios {
 }
 
 model Professor {
-  id          Int         @id @default(autoincrement())
-  nome        String
-  departamento String
-  disciplina  Disciplina? @relation(fields: [disciplinaID], references: [id])
-  disciplinaID Int?
-  createdAt   DateTime    @default(now())
-  updatedAt   DateTime?   @updatedAt
-  avaliacoes  Post[]
+  id           Int         @id @default(autoincrement())
+  nome         String
+  departamento String       
+  disciplina   Disciplina[] @relation("ProfessorToDisciplina")
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime?   @updatedAt
+  avaliacoes   Post[]
 }
 
 model Disciplina {
-  id          Int         @id @default(autoincrement())
-  nome        String
-  professores Professor[] 
-  createdAt   DateTime    @default(now())
-  updatedAt   DateTime?   @updatedAt
-  avaliacoes  Post[]
+  id           Int         @id @default(autoincrement())
+  nome         String
+  professorID  Int         @unique
+  professor    Professor   @relation("ProfessorToDisciplina" ,fields: [professorID], references: [id])
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime?   @updatedAt
+  avaliacoes   Post[]
 }
