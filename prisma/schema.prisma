@@ -61,7 +61,7 @@ model Professor {
 model Disciplina {
   id          Int         @id @default(autoincrement())
   nome        String
-  professores Professor[]
+  professores Professor[] @relation(references: [id])
   createdAt   DateTime    @default(now())
   updatedAt   DateTime?   @updatedAt
   avaliacoes  Post[]
