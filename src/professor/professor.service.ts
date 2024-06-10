@@ -19,7 +19,7 @@ export class ProfessorService {
     const ValidarId = await this.prismaService.professor.findUnique( {
       where: { id },
     });
-    if(ValidarId){
+    if(!ValidarId){
       throw new NotFoundException("Usuario Invalido")
     }
     return await this.prismaService.professor.findUnique( {
@@ -31,7 +31,7 @@ export class ProfessorService {
     const ValidarId = await this.prismaService.professor.findUnique( {
       where: { id },
     });
-    if(ValidarId){
+    if(!ValidarId){
       throw new NotFoundException("Usuario Invalido")
     }
     return await this.prismaService.professor.update( {
@@ -44,7 +44,7 @@ export class ProfessorService {
     const ValidarId = await this.prismaService.professor.findUnique( {
       where: { id },
     });
-    if(ValidarId){
+    if(!ValidarId){
       throw new NotFoundException("Usuario Invalido")
     }
     return await this.prismaService.professor.delete( {

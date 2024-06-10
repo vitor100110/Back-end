@@ -23,7 +23,7 @@ export class UsersService {
     const ValidarId = await this.prismaService.user.findUnique({
       where: { id }
     });
-    if(ValidarId){
+    if(!ValidarId){
       throw new NotFoundException ("Usuario Invalido")
     }
     return await this.prismaService.user.findUnique({ where: { id }});
@@ -33,7 +33,7 @@ export class UsersService {
     const ValidarId = await this.prismaService.user.findUnique({
       where: { id },
     });
-    if(ValidarId){
+    if(!ValidarId){
       throw new NotFoundException ("Usuario Invalido")
     }
     return await this.prismaService.user.update({ 
@@ -46,7 +46,7 @@ export class UsersService {
     const ValidarId = await this.prismaService.user.findUnique({
       where: { id }
     });
-    if(ValidarId){
+    if(!ValidarId){
       throw new NotFoundException ("Usuario Invalido")
     }
     return await this.prismaService.user.delete({ 

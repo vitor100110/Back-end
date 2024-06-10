@@ -20,7 +20,7 @@ export class DisciplinaService {
     const ValidarID = await this.prismaService.disciplina.findUnique({
       where: { id }
     })
-    if(ValidarID){
+    if(!ValidarID){
       throw new NotFoundException("Usuario Invalido");
     }
     return  await this.prismaService.disciplina.findUnique({
@@ -32,7 +32,7 @@ export class DisciplinaService {
     const ValidarID = await this.prismaService.disciplina.findUnique({
       where: { id }
     })
-    if(ValidarID){
+    if(!ValidarID){
       throw new NotFoundException("Usuario Invalido");
     }
     return await this.prismaService.disciplina.update({
@@ -45,7 +45,7 @@ export class DisciplinaService {
     const ValidarID = await this.prismaService.disciplina.findUnique({
       where: { id }
     })
-    if(ValidarID){
+    if(!ValidarID){
       throw new NotFoundException("Usuario Invalido");
     }
     return await this.prismaService.disciplina.delete({
