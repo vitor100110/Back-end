@@ -1,6 +1,6 @@
 -- CreateTable
 CREATE TABLE "User" (
-    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "id" TEXT NOT NULL PRIMARY KEY,
     "email" TEXT NOT NULL,
     "senha" TEXT NOT NULL,
     "nome" TEXT,
@@ -14,7 +14,7 @@ CREATE TABLE "User" (
 -- CreateTable
 CREATE TABLE "Post" (
     "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-    "usuarioID" INTEGER NOT NULL,
+    "usuarioID" TEXT NOT NULL,
     "professorID" INTEGER NOT NULL,
     "disciplinaID" INTEGER NOT NULL,
     "conteudo" TEXT NOT NULL,
@@ -28,7 +28,7 @@ CREATE TABLE "Post" (
 -- CreateTable
 CREATE TABLE "Comentarios" (
     "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-    "usuarioID" INTEGER NOT NULL,
+    "usuarioID" TEXT NOT NULL,
     "avaliacaoID" INTEGER NOT NULL,
     "conteudo" TEXT NOT NULL,
     "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
