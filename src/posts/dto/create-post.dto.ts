@@ -1,4 +1,4 @@
-import { IsEmpty, IsInt, IsNotEmpty, IsString, MinLength } from "class-validator";
+import { IsEmpty, IsInt, IsNotEmpty, IsOptional, IsString, MinLength } from "class-validator";
 
 export class CreatePostDto {
     @IsString({message: " O ID do usuario invalido"})
