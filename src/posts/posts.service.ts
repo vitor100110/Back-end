@@ -5,9 +5,9 @@ import { PrismaService } from 'src/prisma.service';
 
 @Injectable()
 export class PostsService {
-  constructor (private prismaService: PrismaService){}
+  constructor(private prismaService: PrismaService) {}
   async create(createPostDto: CreatePostDto) {
-    return await this.prismaService.post.create( {
+    return await this.prismaService.post.create({
       data: createPostDto,
     });
   }
@@ -17,38 +17,38 @@ export class PostsService {
   }
 
   async findOne(id: number) {
-    const ValidarId = await this.prismaService.post.findUnique( {
+    const ValidarId = await this.prismaService.post.findUnique({
       where: { id },
-    })
-    if(!ValidarId){
-      throw new NotFoundException("Usuario Invalido");
+    });
+    if (!ValidarId) {
+      throw new NotFoundException('Usuario Invalido');
     }
-    return await this.prismaService.post.findUnique( {
+    return await this.prismaService.post.findUnique({
       where: { id },
     });
   }
 
   async update(id: number, updatePostDto: UpdatePostDto) {
-     const ValidarId = await this.prismaService.post.findUnique( {
+    const ValidarId = await this.prismaService.post.findUnique({
       where: { id },
-    })
-    if(!ValidarId){
-      throw new NotFoundException("Usuario Invalido");
+    });
+    if (!ValidarId) {
+      throw new NotFoundException('Usuario Invalido');
     }
-    return await this.prismaService.post.update( {
+    return await this.prismaService.post.update({
       where: { id },
       data: updatePostDto,
     });
   }
 
   async remove(id: number) {
-    const ValidarId = await this.prismaService.post.findUnique( {
+    const ValidarId = await this.prismaService.post.findUnique({
       where: { id },
-    })
-    if(!ValidarId){
-      throw new NotFoundException("Usuario Invalido");
+    });
+    if (!ValidarId) {
+      throw new NotFoundException('Usuario Invalido');
     }
-    return await this.prismaService.post.delete( {
+    return await this.prismaService.post.delete({
       where: { id },
     });
   }
