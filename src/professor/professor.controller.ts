@@ -1,34 +1,44 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UnauthorizedException } from '@nestjs/common';
 import { ProfessorService } from './professor.service';
 import { CreateProfessorDto } from './dto/create-professor.dto';
 import { UpdateProfessorDto } from './dto/update-professor.dto';
+import { Public } from 'src/auth/decorators/isPublic.decorators';
+import { CurrentUser } from 'src/auth/decorators/current-user.deciratirs';
+import { UserPayload } from 'src/auth/types/UserPayload';
 
 @Controller('professor')
 export class ProfessorController {
   constructor(private readonly professorService: ProfessorService) {}
 
   @Post()
-  create(@Body() createProfessorDto: CreateProfessorDto) {
-    return this.professorService.create(createProfessorDto);
+  async create(@Body() createProfessorDto: CreateProfessorDto) {
+    return await this.professorService.create(createProfessorDto);
   }
-
+  @Public()
   @Get()
-  findAll() {
-    return this.professorService.findAll();
+  async findAll() {
+    return await this.professorService.findAll();
   }
-
+  @Public()
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.professorService.findOne(+id);
+  async findOne(@Param('id') id: string) {
+    return await this.professorService.findOne(+id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateProfessorDto: UpdateProfessorDto) {
-    return this.professorService.update(+id, updateProfessorDto);
+  async update(@Param('id') id: string, @Body() updateProfessorDto: UpdateProfessorDto, @CurrentUser() currentUser: UserPayload) {
+    if ( id !== currentUser.sub) {
+      throw new UnauthorizedException('Voce não pode alterar o professor(a).');
+    }
+    return await this.professorService.update(+id, updateProfessorDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.professorService.remove(+id);
+  async remove(@Param('id') id: string, @CurrentUser() currentUser: UserPayload) {
+    if ( id !== currentUser.sub) {
+      throw new UnauthorizedException('Voce não pode deletar o professor(a).');
+    } {
+    return await this.professorService.remove(+id);
+    }
   }
 }

@@ -6,37 +6,57 @@ import {
   Patch,
   Param,
   Delete,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { CommentsService } from './comments.service';
 import { CreateCommentDto } from './dto/create-comment.dto';
 import { UpdateCommentDto } from './dto/update-comment.dto';
+import { CurrentUser } from 'src/auth/decorators/current-user.deciratirs';
+import { UserPayload } from 'src/auth/types/UserPayload';
+import { Public } from 'src/auth/decorators/isPublic.decorators';
+import { UsersService } from 'src/users/users.service';
 
 @Controller('comments')
 export class CommentsController {
   constructor(private readonly commentsService: CommentsService) {}
 
   @Post()
-  create(@Body() createCommentDto: CreateCommentDto) {
-    return this.commentsService.create(createCommentDto);
+  async create(@Body() createCommentDto: CreateCommentDto, @CurrentUser() currentUser: UserPayload) {
+    if (createCommentDto.usuarioID !== currentUser.sub) {
+      throw new UnauthorizedException('Voce só pode criar seus comentarios.');
+    } {
+    return await this.commentsService.create(createCommentDto);
+    }
   }
-
+  @Public()
   @Get()
-  findAll() {
-    return this.commentsService.findAll();
+  async findAll() {
+    return await this.commentsService.findAll();
   }
 
+  @Public()
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.commentsService.findOne(+id);
+  async findOne(@Param('id') id: string) {
+    return await this.commentsService.findOne(+id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateCommentDto: UpdateCommentDto) {
-    return this.commentsService.update(+id, updateCommentDto);
+  async update(@Param('id') id: string, @Body() updateCommentDto: UpdateCommentDto, @CurrentUser() currentUser: UserPayload) {
+    if (updateCommentDto.usuarioID !== currentUser.sub) {
+      throw new UnauthorizedException('Voce só pode criar seus comentarios.');
+    } {
+    return await this.commentsService.update(+id, updateCommentDto);
+    }
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.commentsService.remove(+id);
+  async remove(@Param('id') id: string, @CurrentUser() currentUser: UserPayload, usersService: UsersService) {
+    const User = await this.commentsService.findOne(id);
+    if (User.usuarioID !== currentUser.sub) {
+      throw new UnauthorizedException('Voce só pode criar seus comentarios.');
+    }
+    {
+    return await this.commentsService.remove(+id);
+    }
   }
 }

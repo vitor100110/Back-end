@@ -6,7 +6,7 @@ import { UserPayload } from 'src/auth/types/UserPayload';
 import { CurrentUser } from 'src/auth/decorators/current-user.deciratirs';
 
 @Controller('post')
-export class PostController {
+export class PostsController {
   constructor(private readonly postsService: PostsService) {}
 
   @Post()
@@ -14,17 +14,17 @@ export class PostController {
     if (createPostDto.usuarioID !== currentUser.sub) {
       throw new UnauthorizedException('Só é possível criar posts para si mesmo');
     }
-    return this.postsService.create(createPostDto);
+    return await this.postsService.create(createPostDto);
   }
 
   @Get()
   async findAll() {
-    return this.postsService.findAll();
+    return await this.postsService.findAll();
   }
 
   @Get(':id')
   async findOne(@Param('id') id: number) {
-    return this.postsService.findOne(id);
+    return await this.postsService.findOne(id);
   }
 
   @Patch(':id')
@@ -33,7 +33,7 @@ export class PostController {
     if (post.usuarioID !== currentUser.sub) {
       throw new UnauthorizedException('Você só pode atualizar seus próprios posts');
     }
-    return this.postsService.update(id, updatePostDto);
+    return await this.postsService.update(id, updatePostDto);
   }
 
   @Delete(':id')
@@ -42,6 +42,6 @@ export class PostController {
     if (post.usuarioID !== currentUser.sub) {
       throw new UnauthorizedException('Você só pode deletar seus próprios posts');
     }
-    return this.postsService.remove(id);
+    return await this.postsService.remove(id);
   }
 }
