@@ -4,44 +4,45 @@ import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
 import { UserPayload } from 'src/auth/types/UserPayload';
 import { CurrentUser } from 'src/auth/decorators/current-user.deciratirs';
+import { Public } from 'src/auth/decorators/isPublic.decorators';
 
 @Controller('post')
 export class PostsController {
   constructor(private readonly postsService: PostsService) {}
 
   @Post()
-  async create(@Body() createPostDto: CreatePostDto, @CurrentUser() currentUser: UserPayload) {
+  create(@Body() createPostDto: CreatePostDto, @CurrentUser() currentUser: UserPayload) {
     if (createPostDto.usuarioID !== currentUser.sub) {
       throw new UnauthorizedException('Só é possível criar posts para si mesmo');
     }
-    return await this.postsService.create(createPostDto);
+
+    return this.postsService.create(createPostDto);
   }
 
   @Get()
-  async findAll() {
-    return await this.postsService.findAll();
+  findAll() {
+    return this.postsService.findAll();
   }
 
   @Get(':id')
-  async findOne(@Param('id') id: number) {
-    return await this.postsService.findOne(id);
+  findOne(@Param('id') id: string) {
+    return this.postsService.findOne(+id);
   }
 
   @Patch(':id')
-  async update(@Param('id') id: number, @Body() updatePostDto: UpdatePostDto, @CurrentUser() currentUser: UserPayload) {
-    const post = await this.postsService.findOne(id);
-    if (post.usuarioID !== currentUser.sub) {
-      throw new UnauthorizedException('Você só pode atualizar seus próprios posts');
+  update(@Param('id') id: string, @Body() updatePostDto: UpdatePostDto, @CurrentUser() currentUser: UserPayload) {
+    if (updatePostDto.usuarioID !== currentUser.sub) {
+      throw new UnauthorizedException('Só é possível mudar os seus posts');
     }
-    return await this.postsService.update(id, updatePostDto);
+    return this.postsService.update(+id, updatePostDto);
   }
 
   @Delete(':id')
-  async remove(@Param('id') id: number, @CurrentUser() currentUser: UserPayload) {
-    const post = await this.postsService.findOne(id);
-    if (post.usuarioID !== currentUser.sub) {
-      throw new UnauthorizedException('Você só pode deletar seus próprios posts');
+  async remove(@Param('id') id: string, @CurrentUser() currentUser: UserPayload) {
+    const User = await this.postsService.findOne(+id);
+    if (User.usuarioID !== currentUser.sub) {
+      throw new UnauthorizedException('Só é possível criar posts para si mesmo');
     }
-    return await this.postsService.remove(id);
+    return this.postsService.remove(+id);
   }
 }

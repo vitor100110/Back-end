@@ -1,12 +1,12 @@
-import { IsEmpty, IsInt, IsNotEmpty, IsOptional, IsString, MinLength } from "class-validator";
+import { IsNotEmpty, IsString} from "class-validator";
 
 export class CreateProfessorDto {
+    @IsNotEmpty( {message: " O nome do professor nao pode ser vazio"})
     @IsString({message: " O nome do professor e invalido"})
-    @IsEmpty( {message: " O do professor nao pode ser vazio"})
     nome: string;
 
+    @IsNotEmpty( {message: " O do professor nao pode ser vazio"})
     @IsString({message: " O nome do professor e invalido"})
-    @IsEmpty( {message: " O do professor nao pode ser vazio"})
     departamento: string;
 
 

@@ -51,7 +51,7 @@ export class CommentsController {
 
   @Delete(':id')
   async remove(@Param('id') id: number, @CurrentUser() currentUser: UserPayload, usersService: UsersService) {
-    const User = await this.commentsService.findOne(id);
+    const User = await this.commentsService.findOne(+id);
     if (User.usuarioID !== currentUser.sub) {
       throw new UnauthorizedException('Voce só pode criar seus comentarios.');
     }

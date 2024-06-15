@@ -11,6 +11,7 @@ import { Public } from 'src/auth/decorators/isPublic.decorators';
 export class DisciplinaController {
   constructor(private readonly disciplinaService: DisciplinaService) {}
 
+  @Public()
   @Post()
   create(@Body() createDisciplinaDto: CreateDisciplinaDto) {
     return this.disciplinaService.create(createDisciplinaDto);
@@ -28,12 +29,14 @@ export class DisciplinaController {
     return this.disciplinaService.findOne(+id);
   }
 
+  @Public()
   @Patch(':id')
   async update(@Param('id') id: number, @Body() updateDisciplinaDto: UpdateDisciplinaDto) {
     return this.disciplinaService.update(+id, updateDisciplinaDto);
 
   }
 
+  @Public()
   @Delete(':id')
   async remove(@Param('id') id: number) {
     return this.disciplinaService.remove(+id);
