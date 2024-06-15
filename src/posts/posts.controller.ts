@@ -19,11 +19,13 @@ export class PostsController {
     return this.postsService.create(createPostDto);
   }
 
+  @Public()
   @Get()
   findAll() {
     return this.postsService.findAll();
   }
 
+  @Public()
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.postsService.findOne(+id);

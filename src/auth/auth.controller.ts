@@ -10,7 +10,6 @@ import { Controller,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { LoginRequestBody } from './dto/loginRequestBody';
-import { AuthGuard } from '@nestjs/passport';
 import { Public } from './decorators/isPublic.decorators';
 
 @Controller()

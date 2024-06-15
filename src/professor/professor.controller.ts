@@ -10,7 +10,7 @@ import { UserPayload } from 'src/auth/types/UserPayload';
 export class ProfessorController {
   constructor(private readonly professorService: ProfessorService) {}
 
-  @Public()
+
   @Post()
   async create(@Body() createProfessorDto: CreateProfessorDto) {
     return await this.professorService.create(createProfessorDto);
@@ -30,7 +30,7 @@ export class ProfessorController {
   async update(@Param('id') id: string, @Body() updateProfessorDto: UpdateProfessorDto){
     return await this.professorService.update(+id, updateProfessorDto);
   }
-  @Public()
+
   @Delete(':id')
   async remove(@Param('id') id: string, @CurrentUser() currentUser: UserPayload) {
     if ( id !== currentUser.sub) {
