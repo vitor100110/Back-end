@@ -79,8 +79,17 @@ export class UsersService {
       throw new NotFoundException(`User with ID ${id} not found`);
     }
 
-    const hashedPassword = await bcrypt.hash(updateUserDto.senha, 10);
+    let hashedPassword: string;
 
+    if (updateUserDto.senha) {
+    try {
+      hashedPassword = await bcrypt.hash(updateUserDto.senha, 10);
+    } catch (error) {
+      console.error('Erro ao hashear a senha:', error);
+      throw new Error('Falha ao hashear a senha');
+    }
+  }
+  
     return await this.prisma.user.update({
       where: { id },
       data: {
