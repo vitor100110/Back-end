@@ -36,12 +36,12 @@ export class CommentsController {
 
   @Public()
   @Get(':id')
-  async findOne(@Param('id') id: string) {
+  async findOne(@Param('id') id: number) {
     return await this.commentsService.findOne(+id);
   }
 
   @Patch(':id')
-  async update(@Param('id') id: string, @Body() updateCommentDto: UpdateCommentDto, @CurrentUser() currentUser: UserPayload) {
+  async update(@Param('id') id: number, @Body() updateCommentDto: UpdateCommentDto, @CurrentUser() currentUser: UserPayload) {
     if (updateCommentDto.usuarioID !== currentUser.sub) {
       throw new UnauthorizedException('Voce só pode criar seus comentarios.');
     } {
@@ -50,7 +50,7 @@ export class CommentsController {
   }
 
   @Delete(':id')
-  async remove(@Param('id') id: string, @CurrentUser() currentUser: UserPayload, usersService: UsersService) {
+  async remove(@Param('id') id: number, @CurrentUser() currentUser: UserPayload, usersService: UsersService) {
     const User = await this.commentsService.findOne(id);
     if (User.usuarioID !== currentUser.sub) {
       throw new UnauthorizedException('Voce só pode criar seus comentarios.');
